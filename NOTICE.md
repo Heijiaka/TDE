@@ -1,1 +1,6 @@
 # 第三方代码许可证清单 THIRD-PARTY CODE LICENSE LIST
+
+## LICENSE FORMAT
+## [DEPENDENCY LIBRARIES] (https://github.com/xx)
+    - LICENSE: MIT
+    - COPYRIGHT NOTICE: Copyright (c) 2023 XXXX
