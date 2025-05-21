@@ -9,9 +9,9 @@ CREATE TABLE users (
 
   user_id SERIAL PRIMARY KEY,
 
-  username VARCHAR(50) NOT NULL UNIQUE,
+  username CHAR(20) NOT NULL,
 
-  email VARCHAR(100) NOT NULL UNIQUE,
+  email VARCHAR(20) NOT NULL UNIQUE,
 
   password_hash VARCHAR(255) NOT NULL,
 
@@ -48,17 +48,9 @@ CREATE TABLE user_security (
 
   two_factor_enabled BOOLEAN DEFAULT false,
 
-  two_factor_secret VARCHAR(100),
+  two_factor_secret CHAR(32),
 
-  email_verified BOOLEAN DEFAULT false,
-
-  email_verification_token VARCHAR(100),
-
-  email_token_expiry TIMESTAMP,
-
-  reset_password_token VARCHAR(100),
-
-  reset_token_expiry TIMESTAMP
+  reset_password_token CHAR(32),
 
 );
 ```
@@ -88,15 +80,13 @@ CREATE TABLE user_settings (
 ```sql
 CREATE TABLE fund_cards (
 
-  card_id SERIAL PRIMARY KEY,
+  card_number BIGINT PRIMARY KEY,
 
   user_id INT NOT NULL,
 
-  card_number VARCHAR(20) NOT NULL UNIQUE,
+  balance DECIMAL(40,8) DEFAULT 0,
 
-  balance DECIMAL(20, 8) DEFAULT 0,
-
-  status VARCHAR(20) DEFAULT 'active'
+  status CHAR(20) DEFAULT 'active'
 
 );
 ```
@@ -106,11 +96,11 @@ CREATE TABLE fund_cards (
 ```sql
 CREATE TABLE finance_cards (
 
-  card_id SERIAL PRIMARY KEY,
+  card_number BIGINT PRIMARY KEY,
 
   user_id INT NOT NULL,
 
-  card_number VARCHAR(20) NOT NULL UNIQUE,
+  balance DECIMAL(40,8) DEFAULT 0,
 
   status VARCHAR(20) DEFAULT 'active'
 
@@ -127,8 +117,6 @@ CREATE TABLE admins (
   admin_id SERIAL PRIMARY KEY,
 
   username VARCHAR(50) NOT NULL UNIQUE,
-
-  email VARCHAR(100) NOT NULL UNIQUE,
 
   password_hash VARCHAR(255) NOT NULL,
 
@@ -204,17 +192,17 @@ CREATE TABLE stocks (
 
   issue_date TIMESTAMP,
 
-  issue_price DECIMAL(20, 8),
+  issue_price DECIMAL(40, 8),
 
-  max_supply DECIMAL(20, 8),
+  max_supply DECIMAL(40, 8),
 
-  circulating_supply DECIMAL(20, 8),
+  circulating_supply DECIMAL(40, 8),
 
-  current_price DECIMAL(20, 8),
+  current_price DECIMAL(40, 8),
 
-  highest_price DECIMAL(20, 8),
+  highest_price DECIMAL(40, 8),
 
-  lowest_price DECIMAL(20, 8),
+  lowest_price DECIMAL(40, 8),
 
   popularity_rank INT,
 
@@ -246,7 +234,7 @@ CREATE TABLE team_etfs (
 
   components JSONB, *-- 包含的股票及权重*
 
-  current_price DECIMAL(20, 8),
+  current_price DECIMAL(40, 8),
 
   status VARCHAR(20) DEFAULT 'active'
 
@@ -264,7 +252,7 @@ CREATE TABLE sectors (
 
   description TEXT,
 
-  current_index DECIMAL(20, 8),
+  current_index DECIMAL(40, 8),
 
   status VARCHAR(20) DEFAULT 'active'
 
@@ -288,11 +276,11 @@ CREATE TABLE trades (
 
   quantity DECIMAL(20, 8) NOT NULL,
 
-  price DECIMAL(20, 8) NOT NULL,
+  price DECIMAL(40, 8) NOT NULL,
 
-  total_amount DECIMAL(20, 8) NOT NULL,
+  total_amount DECIMAL(40, 8) NOT NULL,
 
-  fee DECIMAL(20, 8) NOT NULL,
+  fee DECIMAL(40, 8) NOT NULL,
 
   leverage INT DEFAULT 1,
 
@@ -372,25 +360,25 @@ CREATE TABLE contracts (
 
   asset_id INT NOT NULL,
 
-  open_price DECIMAL(20, 8) NOT NULL,
+  open_price DECIMAL(40, 8) NOT NULL,
 
-  quantity DECIMAL(20, 8) NOT NULL,
+  quantity DECIMAL(40, 8) NOT NULL,
 
   leverage INT NOT NULL,
 
-  liquidation_price DECIMAL(20, 8),
+  liquidation_price DECIMAL(40, 8),
 
-  take_profit DECIMAL(20, 8),
+  take_profit DECIMAL(40, 8),
 
-  stop_loss DECIMAL(20, 8),
+  stop_loss DECIMAL(40, 8),
 
   open_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
   close_time TIMESTAMP,
 
-  close_price DECIMAL(20, 8),
+  close_price DECIMAL(40, 8),
 
-  profit_loss DECIMAL(20, 8),
+  profit_loss DECIMAL(40, 8),
 
   status VARCHAR(20) DEFAULT 'open'
 
